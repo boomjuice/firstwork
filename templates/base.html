@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>溜溜球</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/fa/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/bxsilde/src/css/jquery.bxslider.css">
+    {% block styles %}
+
+    {% endblock %}
+    <style>
+        html, body {
+            outline: 0;
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        .top-outer {
+            width: 100%;
+            height: 61px;
+            position: fixed;
+            z-index: 2;
+            background: white;
+            opacity: 0.7;
+        }
+
+        .main {
+            position: relative;
+            top: 62px;
+            padding-bottom: 130px;
+        }
+
+        .footer {
+            position: relative;
+            height: 140px;
+            width: 88%;
+            margin: 0 auto;
+            border-top: 2px solid coral;
+
+        }
+
+        .top-btn ul li {
+            list-style: none;
+            text-align: center;
+            line-height: 40px;
+            margin: 5px 30px;
+            display: inline-block;
+        }
+
+        .top-btn ul li a, .i a {
+            color: #333333;
+            text-decoration: none;
+            font-family: 幼圆;
+            font-size: 20px;
+        }
+
+        .top-btn  ul{
+            margin-left: 270px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .top {
+            width: 70%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .i {
+            display: inline-block;
+            float: left;
+            margin-top: 13px;
+        }
+
+        .box {
+            width: 40%;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .box div, .box div a {
+            color: indianred;
+            margin: 20px 18px;
+        }
+
+        .msg {
+            width: 88%;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+<body>
+<div class="top-outer">
+    <div class="top">
+        <div class="i">
+            <a href="">溜溜球</a>
+        </div>
+        <div class="container1">
+        <div class="top-btn ">
+            <ul>
+                <li name="首页"><a href="{% url 'index' %}"><i class="fa fa-laptop fa-lg"></i></a></li>
+                <li name="有什么"><a href=""><i class="fa fa-id-card-o fa-lg"></i></a></li>
+                <li name="学员照片"><a href="{% url 'student' %}"><i class="fa fa-book fa-lg"></i></a></li>
+                <li name='在线视频'><a href="/video-0-0-0/"><i class="fa fa-play-circle-o fa-lg"></i></a></li>
+                <li name="关于"><a href="{% url 'about' %}"><i class="fa fa-at fa-lg"></i></a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="main">
+    {% block content %}
+    {% endblock %}
+</div>
+<div class="footer">
+    <div class="box ">
+        <div class="container"><a href="{% url 'about' %}">加我好友</a>︱<a href="{% url 'about' %}">请我吃饭</a>︱<a
+                href="{% url 'about' %}">帮助中心</a>︱<a href="{% url 'about' %}">打我电话</a></div>
+        <div style="margin-left: 107px; font-size: 18px" class="container"><i class="fa fa-google"
+                                                                              style="margin-right: 20px"></i>广东工业大学西十三329
+        </div>
+        <div class="container">&copy; &nbsp;&nbsp; 2018-2018 &nbsp;
+            www.liuliuqiu.com &nbsp; All Rights Reserved.&nbsp;溜溜球&nbsp;版权所有
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/js/jquery-3.3.1.js"></script>
+<script src="/static/bxsilde/src/js/jquery.bxslider.js"></script>
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=W6PBZ-UPI35-VCFIY-QQ2OP-TEU5H-SVFQS"></script>
+<script>
+    $(document).ready(function () {
+         Bx();
+         HoverEvent();
+         initMap(23.0431778077, 113.3843511343, 'contact-map-1')
+    });
+    function Bx() {
+        $('.lb').bxSlider({
+            auto: true,
+            captions: true,
+            controls: false,
+
+        });
+    }
+    function HoverEvent() {
+        $('.scl').hover(function () {
+            $(this).children('.school').fadeIn()
+        }, function () {
+            $(this).children('.school').fadeOut()
+        });
+    }
+    function initMap(argx, argy, mapid) {
+        var center = new qq.maps.LatLng(argx, argy);
+        var map = new qq.maps.Map(document.getElementById(mapid), {
+            center: center,
+            zoom: 13,
+        });
+        var marker = new qq.maps.Marker({
+            position: center,
+            map: map,
+        });
+
+    }
+</script>
+</body>
+</html>

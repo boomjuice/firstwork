@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <style>
+        .fa-laptop{
+            color: red;
+        }
+
+        .cl {
+            font-size: 18px;
+            background: orangered;
+        }
+
+        .moban {
+            border-bottom: 1px solid #eeeeee;
+             margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .moban a {
+            font-size: 18px;
+            text-decoration: none;
+            color: #777777;
+        }
+
+        .notice {
+            background: aliceblue;
+            margin: 5px 5px;
+            padding-top: 5px;
+        }
+
+        .news1 {
+            height: 160px;
+        }
+
+        .school {
+            width: 285px;
+            height: 200px;
+            position: absolute;
+            background: #888888;
+            z-index: 2;
+            margin: 5px;
+            opacity: 0.8;
+            text-align: center;
+            overflow: hidden;
+            padding: 0px 20px;
+            display: none;
+        }
+
+        .icons li {
+            list-style: none;
+            display: inline-block;
+        }
+
+        .icons {
+            position: absolute;
+            bottom: 10px;
+        }
+
+        .icons li a {
+            margin: 15px;
+
+        }
+
+        .rating > span:hover ~ span:before {
+            content: "\2605";
+            position: absolute;
+        }
+
+        .rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+        }
+
+        .body {
+            width: 95%;
+            left: 2.5%;
+            position: relative;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="body">
+        <ul class="lb" style="position: absolute">
+            {% for slide in  slide_list %}
+                <a href="{{ slide.href }}">
+                    <li><img style="width: 100%;height: 768px" src="/{{ slide.img }}/" alt=""></li>
+                </a>
+            {% endfor %}
+        </ul>
+        <div class="container" style="width:92%">
+            <div>
+                <div class="moban">
+                    <span class="cl">&nbsp;</span>
+                    <i class="fa fa-thermometer-0"></i>
+                    <a href="">&nbsp;&nbsp;&nbsp;最新公告</a>
+                </div>
+                <div class="notice row">
+                    {% for news in news_list %}
+                        <div class="col-md-4 news1"
+                             style="z-index: {{ news.weight }};overflow-y:hidden">
+                            <i class="fa fa-genderless fa-lg" style="font-size: 35px;width: 35px;"></i>
+                            <span style="font-size: 20px;color: coral;">{{ news.title }}</span>
+                            <div style="font-size: 18px;">简介：</div>
+                            <p>{{ news.detail }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <div class="moban">
+                    <span class="cl">&nbsp;</span>
+                    <i class="fa fa-thermometer-1"></i>
+                    <a href="">&nbsp;&nbsp;&nbsp;校园生活</a>
+                </div>
+                <div>
+                    {% for activity in activity_list %}
+                        <div class="col-md-3 scl" style="position: relative;z-index: {{ activity.weight }};">
+                            <div class="school">
+                                <h4><strong>{{ activity.name }}</strong></h4>
+                                <h5>{{ activity.leader }}</h5>
+                                <span>{{ activity.title }}</span>
+                                <ul class="icons">
+                                    <li><a href=""><i class="fa fa-wechat fa-lg"></i></a></li>
+                                    <li><a href=""><i class="fa fa-weibo  fa-lg"></i></a></li>
+                                    <li><a href=""><i class="fa fa-steam  fa-lg"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="thumbnail">
+                                <img style='width: 100%;height: 200px; ' src="/{{ activity.photo }}/" alt="...">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="moban">
+                        <span class="cl">&nbsp;</span>
+                        <i class="fa fa-thermometer-2"></i>
+                        <a href="">&nbsp;&nbsp;&nbsp;课程介绍</a>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        {% for c in course %}
+                            <div class="col-md-4 thumbnail" style="text-align: center">
+                                <img src="/{{ c.icon }}/" style="height: 140px; width: 140px;" class='img-circle'
+                                     alt="">
+                                <h3 style="color: #777777">{{ c.name }}</h3>
+                                <p style="margin: 10px 20px"> {{ c.summary }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div >
+                <div>
+                    <div class="moban">
+                        <span class="cl">&nbsp;</span>
+                        <i class="fa fa-thermometer-3"></i>
+                        <a href="">&nbsp;&nbsp;&nbsp;学员就业</a>
+                    </div>
+                    <div class="row " >
+                        {% for student in students %}
+                            {% if student.weight == 9999 %}
+                                <div class="col-md-8" style="border-top: 2px solid orangered ">
+                                <div style="margin: 20px 0px">
+                                    <img src="/{{ student.pic }}/"
+                                         style="width: 200px; height: 250px;margin: 20px 20px">
+                                    <i style="position: absolute;top:50px;font-size: 20px;color: #777777">{{ student.name }}</i>
+                                    <span class="rating" style="position: absolute;top: 75px; font-size: 30px">
+                                     <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+                                    </span>
+                                    <span style="position: absolute; top: 120px;left: 275px;">{{ student.studentmoreinfo__detail }}</span>
+                                    <div style="margin-left: 40px">
+                                        <p><i class="fa fa-eercast"
+                                              style="color: #32ff1d;margin-right: 20px"></i>薪资：{{ student.salary }}/月</p>
+                                        <p><i class="fa fa-building-o"
+                                              style="color: #32ff1d;margin-right: 20px"></i>公司：{{ student.company }}</p>
+                                    </div>
+                                </div>
+                                <div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        </div>
+                        <div class="col-md-3" style="margin-left:50px;border-top: 2px solid greenyellow;overflow: hidden">
+                            <h3 style="color: lightgreen;margin-bottom: 30px">招聘信息</h3>
+                            {% for job in jobs %}
+                                <div>
+                                    <a style="text-decoration: none">{{ job.name }}</a>
+                                    <span style="float:right">{{ job.salary }}/月</span>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="row" >
+                        {% for student in students %}
+                        {% if student.weight > 5 %}
+                            <div class="col-md-4 thumbnail" style='text-align: center; z-index: {{ student.weight }}'>
+                                <img src="/{{ student.pic }}/" alt="" style="height: 200px;width: 280px;" class="img-thumbnail">
+                                        <p><i class="fa fa-tag"
+                                              style="color: orangered;margin-right: 20px"></i>姓名：{{ student.name }}</p>
+                                        <p><i class="fa fa-credit-card-alt"
+                                              style="color: orangered;margin-right: 20px"></i>薪资：{{ student.salary }}元/月</p>
+                                        <p><i class="fa fa-rocket"
+                                              style="color: orangered;margin-right: 20px"></i>公司：{{ student.company }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

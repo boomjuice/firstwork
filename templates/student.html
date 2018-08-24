@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <style>
+        .fa-book {
+            color: red;
+        }
+
+        .img-box {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .item {
+            width: 25%;
+            float: left;
+
+        }
+
+        .item img {
+            width: 100%;
+            margin-bottom: 4px;
+        }
+
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h3 style="color: indianred"> 学员就业 </h3>
+        <hr>
+        <div class="img-box ">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script>
+        $(function () {
+            let obj = new ScrollImg();
+            obj.initImg();
+            obj.scrollEvent();
+        });
+        function ScrollImg() {
+            this.nid = 0;
+            this.lastPosition = 3;
+            this.initImg = function () {
+                var that = this;
+                $.ajax({
+                    url: /get_student/,
+                    method: 'GET',
+                    data: {nid: that.nid},
+                    dataType: 'JSON',
+                    success: function (arg) {
+                        let img_list = arg.data;
+                        $.each(img_list, function (x, y) {
+                            let index = (x + that.lastPosition + 1) % 4;
+                            let tag = document.createElement("img");
+                            tag.src = '/' + y.pic;
+                            $('.img-box').children().eq(index).append(tag);
+                            if (x + 1 == img_list.length) {
+                                {#that.nid = y.id;#}
+                                that.lastPosition = index;
+                            }
+                        })
+                    }
+                })
+            };
+            this.scrollEvent = function () {
+                let that = this;
+                $(window).scroll(function () {
+                    let docHeight = $(document).height();
+                    let winHeight = $(this).height();
+                    let scrollTop = $(this).scrollTop();
+                    if (winHeight + scrollTop >= docHeight) {
+                        console.log(1);
+                        that.initImg();
+                    }
+                })
+            }
+        }
+
+    </script>
+{% endblock %}

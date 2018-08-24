@@ -1,0 +1,109 @@
+{% extends 'base.html'%}
+{% block styles %}
+    <style>
+    .fa-play-circle-o{
+        color: red;
+    }
+    .container .filter-fold a {
+        color: indianred;
+        padding: 5px 8px;
+        border: 1px solid orangered;
+    }
+    .container .filter-fold a.active{
+        background: indianred;
+        color:  white;
+    }
+    .filter-fold{
+        margin-left: 90px;
+    }
+    .video{
+        width: 25%;
+        display: inline-block;
+        margin-left: 8px;
+        vertical-align: center;
+        overflow: hidden;
+        }
+    .video-img{
+        width: 100%;
+
+
+    }
+    .video a{
+        border: none;
+    }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container" style="width: 86%">
+        <div class="filter-fold">
+        <h3>筛选</h3>
+            <hr>
+        <div class="type">
+            <strong><a disabled="true" style="text-decoration: none">方向:</a></strong>
+            {% if kwargs.direction_id == 0 %}
+                 <a href="/video-0-{{ kwargs.classification_id }}-{{ kwargs.level_id }}" class="active">全部</a>
+                {% else %}
+                 <a href="/video-0-{{ kwargs.classification_id }}-{{ kwargs.level_id }}">全部</a>
+            {% endif %}
+
+            {% for item in direction_list %}
+                {% if item.id == kwargs.direction_id %}
+                    <a href="/video-{{ item.id }}-{{ kwargs.classification_id }}-{{ kwargs.level_id }}" class="active">{{ item.name }}</a>
+                {% else %}
+                    <a href="/video-{{ item.id }}-{{ kwargs.classification_id }}-{{ kwargs.level_id }}">{{ item.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="filter">
+        <strong><a disabled="true" style="text-decoration: none">分类:</a></strong>
+            {% if kwargs.classification_id == 0 %}
+                 <a href="/video-{{ kwargs.direction_id }}-0-{{ kwargs.level_id }}" class="active">全部</a>
+                {% else %}
+                 <a href="/video-{{ kwargs.direction_id }}-0-{{ kwargs.level_id }}">全部</a>
+            {% endif %}
+            {% for item in class_list %}
+                {% if item.id == kwargs.classification_id %}
+                    <a href="/video-{{ kwargs.direction_id }}-{{ item.id}}-{{ kwargs.level_id }}" class="active">{{ item.name }}</a>
+                {% else %}
+                    <a href="/video-{{ kwargs.direction_id }}-{{ item.id }}-{{ kwargs.level_id }}">{{ item.name }}</a>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+        <hr>
+        <div class="level">
+            <strong><a disabled="true" style="text-decoration: none">级别:</a></strong>
+            {% if kwargs.level_id == 0 %}
+                 <a href="/video-{{ kwargs.direction_id }}-{{ kwargs.classification_id }}-0" class="active">全部</a>
+                {% else %}
+                 <a href="/video-{{ kwargs.direction_id }}-{{ kwargs.classification_id }}-0">全部</a>
+            {% endif %}
+            {% for item in level_list %}
+                {% if item.id == kwargs.level_id %}
+                    <a  class='active' href="/video-{{ kwargs.direction_id }}-{{ kwargs.classification_id }}-{{ item.id }}">{{ item.title }}</a>
+                {% else %}
+                    <a href="/video-{{ kwargs.direction_id }}-{{ kwargs.classification_id }}-{{ item.id }}">{{ item.title }}</a>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+            <hr>
+        <div>
+            <h3>结果</h3>
+            <hr>
+            <div>
+            {% for video in video_list %}
+                  <div class="video ">
+                      <a href="{{ video.href }}"><img  class='video-img' src="/{{ video.img}}/"  alt=""></a>
+                      <hr>
+                      <h3>{{ video.title }}</h3>
+                     <p>{{ video.summary }}</p>
+                  </div>
+            {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
